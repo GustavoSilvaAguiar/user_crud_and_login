@@ -3,28 +3,38 @@
     <h1><strong>Olá visitante</strong></h1>
     <div class="card">
       <h2>Login</h2>
-      <v-form v-model="form">
+      <v-form ref="loginForm" class="form" v-model="form">
         <v-text-field
           variant="outlined"
           label="Email"
           placeholder="exemplo@exe.com"
-          :rules="[teste]"
+          :rules="emailRules"
           type="email"
           color="#000"
         ></v-text-field>
         <v-text-field
           variant="outlined"
-          :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-inner-icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           label="Senha"
+          :rules="passwordRules"
           clearable
           placeholder="**********"
           :type="showPassword ? 'text' : 'password'"
           color="#000"
-          @click:append="toggleShowPass"
+          @click:append-inner="toggleShowPass"
         >
         </v-text-field>
+        <div class="form--btns">
+          <v-btn
+            ><v-icon style="margin: 0px 10px 0px 0px">mdi-account-plus</v-icon
+            >Cadastrar
+          </v-btn>
+          <v-btn color="#ffd23a" @click="validar2">
+            <v-icon style="margin: 0px 10px 0px 0px">mdi-login</v-icon>
+            Login
+          </v-btn>
+        </div>
       </v-form>
-      campo1 campo1
     </div>
   </div>
 </template>
@@ -34,15 +44,25 @@ export default {
     return {
       form: false,
       showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail é obrigatório",
+        (v) => /.+@.+\..+/.test(v) || "E-mail precisa ser valido",
+      ],
+      passwordRules: [
+        (v) => !!v || "Senha é obrigatória",
+        (v) =>
+          (v && v.length >= 6) ||
+          "A senha deve ser maior ou igual a 6 caracteres ",
+      ],
     };
   },
   methods: {
-    teste(v) {
-      console.log("v", v);
-      return !!v || "é obrigatorio";
-    },
     toggleShowPass() {
       this.showPassword = !this.showPassword;
+    },
+    async validar2() {
+      const { valid } = await this.$refs.loginForm.validate();
+      if (valid) alert("Formulario valido");
     },
   },
 };
@@ -60,10 +80,24 @@ export default {
   .card {
     background-color: #fff;
     width: 350px;
-    height: 500px;
     border-radius: 16px;
-    border: 6px solid #000;
+    border: 6px solid #2c3e50;
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 16px;
+
+      &--btns {
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+      }
+    }
   }
 }
 </style>
