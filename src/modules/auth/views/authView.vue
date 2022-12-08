@@ -1,0 +1,103 @@
+<template>
+  <div class="loginPage">
+    <h1><strong>Olá visitante</strong></h1>
+    <div class="card">
+      <h2>Login</h2>
+      <v-form ref="loginForm" class="form" v-model="form">
+        <v-text-field
+          variant="outlined"
+          label="Email"
+          placeholder="exemplo@exe.com"
+          :rules="emailRules"
+          type="email"
+          color="#000"
+        ></v-text-field>
+        <v-text-field
+          variant="outlined"
+          :append-inner-icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          label="Senha"
+          :rules="passwordRules"
+          clearable
+          placeholder="**********"
+          :type="showPassword ? 'text' : 'password'"
+          color="#000"
+          @click:append-inner="toggleShowPass"
+        >
+        </v-text-field>
+        <div class="form--btns">
+          <v-btn
+            ><v-icon style="margin: 0px 10px 0px 0px">mdi-account-plus</v-icon
+            >Cadastrar
+          </v-btn>
+          <v-btn color="#ffd23a" @click="validar2">
+            <v-icon style="margin: 0px 10px 0px 0px">mdi-login</v-icon>
+            Login
+          </v-btn>
+        </div>
+      </v-form>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      form: false,
+      showPassword: false,
+      emailRules: [
+        (v) => !!v || "E-mail é obrigatório",
+        (v) => /.+@.+\..+/.test(v) || "E-mail precisa ser valido",
+      ],
+      passwordRules: [
+        (v) => !!v || "Senha é obrigatória",
+        (v) =>
+          (v && v.length >= 6) ||
+          "A senha deve ser maior ou igual a 6 caracteres ",
+      ],
+    };
+  },
+  methods: {
+    toggleShowPass() {
+      this.showPassword = !this.showPassword;
+    },
+    async validar2() {
+      const { valid } = await this.$refs.loginForm.validate();
+      if (valid) alert("Formulario valido");
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.loginPage {
+  background-color: #ffd23a;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 100px;
+
+  .card {
+    background-color: #fff;
+    width: 350px;
+    border-radius: 16px;
+    border: 6px solid #2c3e50;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 16px;
+
+      &--btns {
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+      }
+    }
+  }
+}
+</style>
