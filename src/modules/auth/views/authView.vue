@@ -7,6 +7,7 @@
         <v-text-field
           variant="outlined"
           label="Email"
+          v-model="email"
           placeholder="exemplo@exe.com"
           :rules="emailRules"
           type="email"
@@ -16,6 +17,7 @@
           variant="outlined"
           :append-inner-icon="!showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           label="Senha"
+          v-model="password"
           :rules="passwordRules"
           clearable
           placeholder="**********"
@@ -25,11 +27,8 @@
         >
         </v-text-field>
         <div class="form--btns">
-          <v-btn
-            ><v-icon style="margin: 0px 10px 0px 0px">mdi-account-plus</v-icon
-            >Cadastrar
-          </v-btn>
-          <v-btn color="#ffd23a" @click="validar2">
+          <CreateAccountDialog></CreateAccountDialog>
+          <v-btn :disabled="!form" color="#ffd23a" @click="validar">
             <v-icon style="margin: 0px 10px 0px 0px">mdi-login</v-icon>
             Login
           </v-btn>
@@ -39,10 +38,18 @@
   </div>
 </template>
 <script>
+import authService from "../../../services/auth/auth.service";
+import CreateAccountDialog from "../components/create-account-dialog.vue";
+
 export default {
+  components: {
+    CreateAccountDialog,
+  },
   data() {
     return {
       form: false,
+      email: "",
+      password: "",
       showPassword: false,
       emailRules: [
         (v) => !!v || "E-mail é obrigatório",
@@ -60,9 +67,23 @@ export default {
     toggleShowPass() {
       this.showPassword = !this.showPassword;
     },
-    async validar2() {
+    async validar() {
       const { valid } = await this.$refs.loginForm.validate();
-      if (valid) alert("Formulario valido");
+      if (valid) {
+        authService
+          .getAuth(this.email, this.password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            this.$localStorageSetItem(user.uid);
+            console.log("teste de localstorage", this.$localStorageGetItem());
+            this.$router.push("/home");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(`Código do erro: ${errorCode}, mensagem: ${errorMessage}`);
+          });
+      }
     },
   },
 };
