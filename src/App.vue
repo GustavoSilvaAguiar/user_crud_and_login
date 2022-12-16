@@ -1,8 +1,35 @@
 <template>
-  <router-view />
+  <div class="app">
+    <router-view />
+  </div>
 </template>
-
+<script>
+import firebase from "./firebase";
+export default {
+  mounted() {
+    console.log("firebase::::", firebase);
+    console.log("local::::", this.$localStorageGetItem());
+    if (!this.$localStorageGetItem()) {
+      this.$router.push("/login");
+    }
+  },
+};
+</script>
 <style lang="scss">
+@keyframes background {
+  100% {
+    background-size: 200% 200%;
+  }
+}
+.app {
+  background-color: #ffd23a;
+  background-image: url("./assets/Wave.svg");
+  background-size: 100% 100%;
+  animation: background 20s infinite alternate linear;
+  overflow-y: auto;
+  width: 100vw;
+  height: 100vh;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
