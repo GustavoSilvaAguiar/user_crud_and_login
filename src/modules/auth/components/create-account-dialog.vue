@@ -49,8 +49,14 @@
 </template>
 <script>
 import authService from "../../../services/auth/auth.service";
+import { useToast } from "vue-toastification";
 
 export default {
+  setup() {
+    const toast = useToast();
+
+    return { toast };
+  },
   data() {
     return {
       form: false,
@@ -78,11 +84,14 @@ export default {
           this.$localStorageRemoveItem();
           this.$localStorageSetItem(user.uid);
           this.$router.push("/register");
+          this.toast.success("Conta criada com sucesso");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert(`Código do erro: ${errorCode}, mensagem: ${errorMessage}`);
+          this.toast.error(
+            `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+          );
         });
     },
 

@@ -51,8 +51,14 @@
 <script>
 import authService from "../../../services/auth/auth.service";
 import homepageService from "../services/homepage.service";
+import { useToast } from "vue-toastification";
 
 export default {
+  setup() {
+    const toast = useToast();
+
+    return { toast };
+  },
   data() {
     return {
       form: false,
@@ -77,15 +83,18 @@ export default {
         .getAuth(this.email, this.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log("user : : :", user.uid);
           if (user.uid === this.$localStorageGetItem()) {
             this.deleteData();
+          } else {
+            this.toast.error(`Email e/ou senha incorretos`);
           }
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert(`Código do erro: ${errorCode}, mensagem: ${errorMessage}`);
+          this.toast.error(
+            `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+          );
         });
     },
 
@@ -96,7 +105,11 @@ export default {
           this.deleteUser();
         })
         .catch((error) => {
-          alert(`Erro ao deletar dados: ${error}`);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          this.toast.error(
+            `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+          );
         });
     },
 
@@ -104,10 +117,16 @@ export default {
       await authService
         .deleteUser()
         .then(() => {
+          this.$localStorageRemoveItem();
           this.$router.push("/login");
+          this.toast.success("Conta excluída com sucesso");
         })
         .catch((error) => {
-          alert(`Erro ao deletar conta: ${error}`);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          this.toast.error(
+            `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+          );
         });
     },
 

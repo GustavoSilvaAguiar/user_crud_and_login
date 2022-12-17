@@ -40,10 +40,16 @@
 <script>
 import authService from "../../../services/auth/auth.service";
 import CreateAccountDialog from "../components/create-account-dialog.vue";
+import { useToast } from "vue-toastification";
 
 export default {
   components: {
     CreateAccountDialog,
+  },
+  setup() {
+    const toast = useToast();
+
+    return { toast };
   },
   data() {
     return {
@@ -63,6 +69,11 @@ export default {
       ],
     };
   },
+  mounted() {
+    if (this.$localStorageGetItem()) {
+      this.$router.push("/home");
+    }
+  },
   methods: {
     toggleShowPass() {
       this.showPassword = !this.showPassword;
@@ -75,13 +86,14 @@ export default {
           .then((userCredential) => {
             const user = userCredential.user;
             this.$localStorageSetItem(user.uid);
-            console.log("teste de localstorage", this.$localStorageGetItem());
             this.$router.push("/home");
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(`Código do erro: ${errorCode}, mensagem: ${errorMessage}`);
+            this.toast.error(
+              `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+            );
           });
       }
     },

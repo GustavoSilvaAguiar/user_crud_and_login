@@ -88,12 +88,15 @@ export default {
       authService
         .logout()
         .then(() => {
-          console.log("saiu");
           this.$localStorageRemoveItem();
           this.$router.push("/login");
         })
         .catch((error) => {
-          console.log("error: ", error);
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          this.toast.error(
+            `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
+          );
         });
     },
     edit() {

@@ -4,11 +4,8 @@
   </div>
 </template>
 <script>
-import firebase from "./firebase";
 export default {
   mounted() {
-    console.log("firebase::::", firebase);
-    console.log("local::::", this.$localStorageGetItem());
     if (!this.$localStorageGetItem()) {
       this.$router.push("/login");
     }
