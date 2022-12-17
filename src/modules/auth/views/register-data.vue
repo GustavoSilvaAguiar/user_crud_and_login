@@ -4,9 +4,15 @@
 <script>
 import authService from "../../../services/auth/auth.service";
 import formUserDataVue from "@/@shared/form-user-data.vue";
+import { useToast } from "vue-toastification";
 
 export default {
   components: { formUserDataVue },
+  setup() {
+    const toast = useToast();
+
+    return { toast };
+  },
   data() {
     return {};
   },
@@ -16,14 +22,14 @@ export default {
         .postUserData(this.$localStorageGetItem(), formData)
         .then(() => {
           this.$router.push("/home");
+          this.toast.success("Dados da conta cadastrados com sucesso");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error(
+          this.toast.error(
             `Código do erro: ${errorCode}, mensagem: ${errorMessage}`
           );
-          alert(`Código do erro: ${errorCode}, mensagem: ${errorMessage}`);
         });
     },
   },

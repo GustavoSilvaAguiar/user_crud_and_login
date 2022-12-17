@@ -117,7 +117,7 @@
           }}</v-icon
           >{{ editForm ? "Editar" : "Cadastrar" }}
         </v-btn>
-        <ConfirmLoginDialog></ConfirmLoginDialog>
+        <ConfirmLoginDialog v-if="editForm"></ConfirmLoginDialog>
       </div>
     </v-form>
   </div>
@@ -157,12 +157,10 @@ export default {
   },
   methods: {
     async getDataForEdit() {
-      console.log("ttt", this.$route.fullPath);
       if (this.$route.fullPath !== "/register") {
         this.formData = await homepageService.getUserData(
           this.$localStorageGetItem()
         );
-        console.log("formData:", this.formData);
       }
     },
     sendData() {
