@@ -17,6 +17,7 @@
           variant="solo"
           class="input-size"
           label="CPF*"
+          maxlength="11"
           :rules="[
             (v) => !!v || 'O campo CPF é obrigatório',
             (v) => TestaCPF(v) || 'CPF Invalido',
@@ -114,10 +115,7 @@
           <v-icon style="margin: 0px 10px 0px 0px">mdi-cancel</v-icon>
           Cancelar
         </v-btn>
-        <v-btn
-          :disabled="!form && !TestaCPF(formData.cpf)"
-          color="blue-grey"
-          @click="sendData"
+        <v-btn :disabled="!form" color="blue-grey" @click="sendData"
           ><v-icon style="margin: 0px 10px 0px 0px">{{
             editForm ? "mdi-pencil" : "mdi-account-plus"
           }}</v-icon
@@ -130,7 +128,6 @@
 </template>
 <script>
 import homepageService from "@/modules/home/services/homepage.service";
-import authService from "@/services/auth/auth.service.js";
 import ConfirmLoginDialog from "../modules/home/components/confirm-login-dialog.vue";
 
 export default {
