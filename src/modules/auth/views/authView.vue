@@ -1,6 +1,6 @@
 <template>
   <div class="loginPage">
-    <h1><strong>Olá visitante</strong></h1>
+    <h1><strong>Olá, visitante</strong></h1>
     <div class="card">
       <h2>Login</h2>
       <v-form ref="loginForm" class="form" v-model="form">
