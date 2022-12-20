@@ -3,9 +3,11 @@
     <v-breadcrumbs
       v-if="$route.meta.breadcrumbs"
       :items="$route.meta.breadcrumbs"
+      bg-color="#2C3E50"
+      color="#ffd23a"
     >
       <template v-slot:divider>
-        <v-icon size="20" color="#B6BEBE" icon="mdi-chevron-right"></v-icon>
+        <v-icon size="30" color="#000" icon="mdi-chevron-right"></v-icon>
       </template>
     </v-breadcrumbs>
     <div class="router">

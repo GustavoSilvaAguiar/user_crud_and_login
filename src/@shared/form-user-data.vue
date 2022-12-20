@@ -17,7 +17,10 @@
           variant="solo"
           class="input-size"
           label="CPF*"
-          :rules="[(v) => !!v || 'O campo CPF é obrigatório']"
+          :rules="[
+            (v) => !!v || 'O campo CPF é obrigatório',
+            (v) => TestaCPF(v) || 'CPF Invalido',
+          ]"
           placeholder="Digite seu CPF"
           bg-color="#E0E0E0"
           v-model.trim="formData.cpf"
@@ -111,7 +114,10 @@
           <v-icon style="margin: 0px 10px 0px 0px">mdi-cancel</v-icon>
           Cancelar
         </v-btn>
-        <v-btn :disabled="!form" color="blue-grey" @click="sendData"
+        <v-btn
+          :disabled="!form && !TestaCPF(formData.cpf)"
+          color="blue-grey"
+          @click="sendData"
           ><v-icon style="margin: 0px 10px 0px 0px">{{
             editForm ? "mdi-pencil" : "mdi-account-plus"
           }}</v-icon
@@ -171,22 +177,27 @@ export default {
       this.$router.push("/home");
     },
 
-    deleteUserAndData() {
-      homepageService
-        .deleteUserData(this.$localStorageGetItem())
-        .then(async () => {
-          await authService
-            .deleteUser()
-            .then(() => {
-              this.$router.push("/login");
-            })
-            .catch((error) => {
-              alert(`Erro ao deletar conta: ${error}`);
-            });
-        })
-        .catch((error) => {
-          alert(`Erro ao deletar dados: ${error}`);
-        });
+    TestaCPF(strCPF) {
+      var Soma;
+      var Resto;
+      Soma = 0;
+      if (strCPF == "00000000000") return false;
+
+      for (let i = 1; i <= 9; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+      Resto = (Soma * 10) % 11;
+
+      if (Resto == 10 || Resto == 11) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+      Soma = 0;
+      for (let i = 1; i <= 10; i++)
+        Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+      Resto = (Soma * 10) % 11;
+
+      if (Resto == 10 || Resto == 11) Resto = 0;
+      if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+      return true;
     },
   },
 };

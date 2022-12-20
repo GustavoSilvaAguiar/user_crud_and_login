@@ -1,48 +1,60 @@
 <template>
   <div class="home">
     <h1>
-      <strong>Olá {{ data.name }}</strong>
+      <strong v-if="!loading">Olá {{ data.name }}</strong>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        size="50"
+        width="7"
+      ></v-progress-circular>
     </h1>
     <div class="card">
-      <div class="card--subjects">
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        size="50"
+        width="7"
+      ></v-progress-circular>
+      <div v-if="!loading" class="card--subjects">
         <h3>Nome:</h3>
         {{ data.name }}
       </div>
-      <div class="card--subjects">
+      <div v-if="!loading" class="card--subjects">
         <h3>CPF:</h3>
         {{ data.cpf }}
       </div>
-      <div class="card--subjects">
+      <div v-if="!loading" class="card--subjects">
         <h3>PIS:</h3>
         {{ data.pis }}
       </div>
       <h3>Endereço</h3>
-      <div class="card--address">
-        <div>
+      <div v-if="!loading" class="card--address">
+        <div class="card--address--content">
           <h3>País:</h3>
           {{ data?.address?.country }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>Estado:</h3>
           {{ data?.address?.state }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>Município:</h3>
           {{ data?.address?.city }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>CEP:</h3>
           {{ data?.address?.cep }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>Rua:</h3>
           {{ data?.address?.street }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>Número:</h3>
           {{ data?.address?.number }}
         </div>
-        <div>
+        <div class="card--address--content">
           <h3>Complemento:</h3>
           {{ data?.address?.complement }}
         </div>
@@ -72,6 +84,7 @@ export default {
   data() {
     return {
       data: [],
+      loading: true,
     };
   },
   created() {
@@ -79,9 +92,12 @@ export default {
   },
   methods: {
     async getUserData() {
-      this.data = await homepageService.getUserData(
-        this.$localStorageGetItem()
-      );
+      await homepageService
+        .getUserData(this.$localStorageGetItem())
+        .then((response) => {
+          this.data = response;
+          this.loading = false;
+        });
     },
 
     logout() {
@@ -132,8 +148,16 @@ export default {
   &--address {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 50px;
+    justify-content: space-around;
     row-gap: 20px;
+
+    &--content {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &--btns {
