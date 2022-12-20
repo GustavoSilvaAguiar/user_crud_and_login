@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>
-      <strong v-if="!loading">Olá {{ data.name }}</strong>
+      <strong v-if="!loading">Olá, {{ data.name }}</strong>
       <v-progress-circular
         v-if="loading"
         indeterminate
