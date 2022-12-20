@@ -14,8 +14,8 @@ class AuthServices {
     this.auth = getAuth(firebaseApp);
     this.db = getFirestore(firebaseApp);
   }
-  getAuth(email, password) {
-    return signInWithEmailAndPassword(this.auth, email, password);
+  async getAuth(email, password) {
+    return await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   postNewUser(email, password) {
