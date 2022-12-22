@@ -1,5 +1,7 @@
 # user_crud_and_login
 
+Project with the purpose of learning how to use firebase services, authentication, firestore and hosting.
+
 ## Project setup
 ```
 npm install
