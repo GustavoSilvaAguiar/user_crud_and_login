@@ -1,6 +1,6 @@
 <template>
   <div class="register-data">
-    <v-form ref="register-form" v-model="form">
+    <v-form class="form" ref="register-form" v-model="form">
       <h2>Dados pessoais</h2>
       <div class="form-personal-data">
         <v-text-field
@@ -38,7 +38,6 @@
           color="#000"
         ></v-text-field>
       </div>
-      <v-divider color="#000"></v-divider>
       <h2>Endereço</h2>
       <div class="form-address-data">
         <v-text-field
@@ -200,10 +199,61 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media screen and (min-width: 768px) {
+  @keyframes background {
+    100% {
+      background-size: 200% 200%;
+    }
+  }
+  .register-data {
+    width: 100vw;
+    height: 100%;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    animation: background 20s infinite alternate linear;
+
+    .form-personal-data {
+      display: flex;
+      flex-direction: row !important;
+      padding-top: 16px;
+      max-width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      column-gap: 30px;
+    }
+    .form-address-data {
+      display: flex;
+      flex-direction: row !important;
+      padding-top: 16px;
+      max-width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      column-gap: 30px;
+    }
+  }
+  .input-size {
+    width: 30% !important;
+  }
+  .form--btns {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    column-gap: 30px;
+  }
+}
 @keyframes background {
   100% {
     background-size: 200% 200%;
   }
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 .register-data {
   width: 100vw;
@@ -216,27 +266,33 @@ export default {
   animation: background 20s infinite alternate linear;
 
   .form-personal-data {
+    width: 100%;
     display: flex;
+    flex-direction: column;
     padding-top: 16px;
+    align-items: center;
     max-width: 100%;
     flex-wrap: wrap;
-    column-gap: 30px;
   }
   .form-address-data {
+    width: 100%;
     display: flex;
+    flex-direction: column;
     padding-top: 16px;
+    align-items: center;
     max-width: 100%;
     flex-wrap: wrap;
     column-gap: 30px;
   }
 }
 .input-size {
-  width: 30%;
+  width: 80%;
 }
 .form--btns {
   display: flex;
-  justify-content: center;
-  column-gap: 30px;
+  flex-direction: column;
+  width: 80%;
+  row-gap: 10px;
 }
 :deep .v-input {
   flex: none;
