@@ -102,6 +102,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+:deep .v-overlay__content {
+  align-items: center;
+}
 .card {
   background-color: #fff;
   width: 350px;

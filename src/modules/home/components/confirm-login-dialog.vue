@@ -8,7 +8,7 @@
     </template>
     <template v-slot:default="{ isActive }">
       <div class="card">
-        <center><h2>Cadastrar usuário</h2></center>
+        <center><h2>Confirmação de exclusão</h2></center>
         <v-form ref="loginForm" class="form" v-model="form">
           <v-text-field
             variant="outlined"
@@ -137,6 +137,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+:deep .v-overlay__content {
+  align-items: center;
+}
 .card {
   background-color: #fff;
   width: 350px;
