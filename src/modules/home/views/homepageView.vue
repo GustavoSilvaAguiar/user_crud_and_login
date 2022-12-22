@@ -124,13 +124,15 @@ export default {
 <style lang="scss" scoped>
 .home {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  flex-direction: row;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
 }
 .card {
   background-color: #fff;
-  width: 500px;
   border-radius: 16px;
   border: 6px solid #2c3e50;
   padding: 16px;
@@ -147,8 +149,10 @@ export default {
 
   &--address {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
     row-gap: 20px;
 
     &--content {
@@ -173,6 +177,64 @@ export default {
         align-items: center;
         column-gap: 5px;
         justify-content: center;
+      }
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .home {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+  }
+  .card {
+    background-color: #fff;
+    max-width: 700px;
+    border-radius: 16px;
+    border: 6px solid #2c3e50;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+
+    &--subjects {
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+    }
+
+    &--address {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      row-gap: 20px;
+
+      &--content {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    &--btns {
+      display: flex;
+      justify-content: center;
+      column-gap: 20px;
+
+      &--btn {
+        width: 150px;
+
+        &--content {
+          display: flex;
+          align-items: center;
+          column-gap: 5px;
+          justify-content: center;
+        }
       }
     }
   }

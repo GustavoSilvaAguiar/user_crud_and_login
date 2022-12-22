@@ -106,7 +106,8 @@ export default {
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 0px 100px;
 
@@ -129,6 +130,41 @@ export default {
         display: flex;
         flex-direction: column;
         row-gap: 8px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .loginPage {
+    background-color: #ffd23a;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 100px;
+
+    .card {
+      background-color: #fff;
+      width: 350px;
+      border-radius: 16px;
+      border: 6px solid #2c3e50;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 40px;
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+
+        &--btns {
+          display: flex;
+          flex-direction: column;
+          row-gap: 8px;
+        }
       }
     }
   }
